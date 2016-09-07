@@ -276,7 +276,15 @@ public class Ghost3 extends AllGhost {
 	    i = pMan_prevX+1;
 	    j = this.xPos;
 	}
-	else return;
+	else { // Ghost 3 touches Pacman, causing Pacman to lose a life
+	    if (board[pMan_prevY][this.xPos-1].getDisplay() == '-') {
+		board[pMan_prevY][this.xPos-1].setDisplay(' ');
+	    }
+	    else {
+		board[pMan_prevY][this.xPos+1].setDisplay(' ');
+	    }
+	    return;
+	}
 	
 	for ( ; i < j; i++) {
 	    if (board[pMan_prevY][i].getPrevState() == 0) {
