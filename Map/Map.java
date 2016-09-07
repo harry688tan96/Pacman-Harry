@@ -43,29 +43,69 @@ public class Map {
 	ReadingFile.readfile(board, mapNo);
     }
 
+    private String addColour(char achar) {
+	String tmp = "";
+	if (achar == 'c' || achar == 'C') {
+	    tmp += "\u001B[33m"; // yellow
+	}
+	else if (achar == '1') {
+	    tmp += "\u001B[31m"; //red
+	}
+	else if (achar == '2') {
+	    tmp += "\u001B[35m"; //purple
+	}
+	else if (achar == '3') {
+	    tmp += "\u001B[32m"; //green
+	}
+	else if (achar == '4') {
+	    tmp += "\u001B[36m"; //cyan
+	}
+	else if (achar == '+') {
+	    tmp += "\u001B[34m"; //blue
+	}
+	tmp += achar + "\u001B[0m";
+	return tmp;
+    }
+
+    private String addColour(char achar, int lazerColour) {
+	String tmp = "";
+	tmp += "\u001B[" + lazerColour + "m" + achar + "\u001B[0m";
+	return tmp;
+    }
+	    
     private void printMap() {	
 	System.out.println("\033[2J"); // clear the existing output screen before
 	                               // printing a new Map
+	
+	int lazerColour = 0;
+	if (ghost_3.isLazerShot()) lazerColour = 31;
+	
 	if (mapNo == 1) {
-	    
+	    	    
 	    // Array of Strings are used because it can be printed out smoothly
 	    String [] ss = new String[33];
 	    
 	    for (int row=0; row<33; row++) {
 		ss[row]="";
 		for (int col=0; col<50;col++) {
-		    ss[row]+=board[row][col].getDisplay();
+		    if (board[row][col].getDisplay() == '-') {
+			if (lazerColour == 37) lazerColour = 31; // back to RED
+			ss[row]+=addColour(board[row][col].getDisplay(),
+					   lazerColour);
+			lazerColour++;
+		    }
+		    else ss[row]+=addColour(board[row][col].getDisplay());
 		}
 	    }
 	    
 	    //Thread.sleep(1000);
 	    System.out.println();
-	    
 	    for (int row=0; row<33; row++) {
 		System.out.print(ss[row]);
 	    }
 	    
 	} // (mapNo == 1)
+	
 	else if (mapNo == 2) {
 	    // Array of Strings are used because it can be printed out smoothly
 	    String [] ss = new String[31];
@@ -74,7 +114,13 @@ public class Map {
 		for (int row=0; row<31; row++) {
 		    ss[row]="";
 		    for (int col=0; col<62;col++) {
-			ss[row]+=board[row][col].getDisplay();
+			if (board[row][col].getDisplay() == '-') {
+			    if (lazerColour == 37) lazerColour = 31; //back to RED
+			    ss[row]+=addColour(board[row][col].getDisplay(),
+					       lazerColour);
+			    lazerColour++;
+			}
+			else ss[row]+=addColour(board[row][col].getDisplay());
 		    }
 		}
 	    }
@@ -86,13 +132,17 @@ public class Map {
 			char c = board[row][col].getDisplay();
 			if (c == '\\')  ss[row] += '/';
 			else if (c == '/')  ss[row] += '\\';
-			else  ss[row] += c;
+			else if (c == '-') {
+			    if (lazerColour == 37) lazerColour = 31; // back to RED
+			    ss[row]+=addColour(c, lazerColour);
+			    lazerColour++;
+			}
+			else  ss[row] += addColour(c);
 		    }
 		}
 	    }
-	        
+	    //print out the Map    
 	    System.out.println();
-	    
 	    for (int row=0; row<31; row++) {
 		System.out.print(ss[row]);
 	    }
@@ -165,7 +215,6 @@ public class Map {
 		attackMode = false;
 		stage++;
 	    }
-	    //pMan.resetPacman();
 	    ghost_1.resetGhost();
 	    ghost_2.resetGhost();
 	    ghost_3.resetGhost();
@@ -173,7 +222,12 @@ public class Map {
 	    pMan.resetPacman();
 	    input = "";
 	    
-	    if (pMan.getLives() == 0) return;
+	    if (pMan.getLives() == -1) {
+		Thread.sleep(1500);
+		System.out.println("You Lost!!! Too bad...");
+		System.exit(0);
+	    }
+	    
 	    if (flipMode) {
 		flipMode = false;
 	    }
@@ -370,11 +424,6 @@ public class Map {
 		    
 		    if (amap.isGameStart()) {
 			amap.gameStart();
-			if (amap.pMan.getLives() == 0) {
-			    Thread.sleep(1500);
-			    System.out.println("You Lost!!! Too bad...");
-			    return;
-			}
 			if (reader.ready()) {
 			    // just in case the player inputs something before
 			    // the game starts
