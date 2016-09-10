@@ -241,9 +241,25 @@ public class Map {
 	    do {
 		printMap();
 		Thread.sleep(800);
-		System.out.println("Please adjust according to Map " + mapNo + "'s Dimension for the best gaming experience.");
-		Thread.sleep(1000);
-		System.out.print("Successfully adjusted the dimension? (y): ");
+		if (mapNo == 2) {
+		    System.out.println("IMPORTANT!!! PLEASE READ THE FOLLOWING!!");
+		    System.out.println();
+		    Thread.sleep(1000);
+		    System.out.println("-----------------");
+		    System.out.println("There is a \"FLIP mode\" in Map 2.");
+		    System.out.println("Every 20 seconds, this Map will be flipped horizontally.");
+		    System.out.println("When the Map is flipped, the LEFT and RIGHT direction are reversed.");
+		    System.out.print("The \"a\" key (which is the LEFT key) will cause Pacman to move to the RIGHT instead. ");
+		    System.out.println("The \"d\" key (which is the RIGHT key) will cause Pacman to move to the LEFT instead.");
+		    System.out.println();
+		    System.out.println("NOTE: An arrow is drawn at the bottom of Map 2 in order to ease the player in knowing when the map has been flipped.");
+		    System.out.println("A left arrow, which appears on the bottom-left, indicates that the map is still in normal mode.");
+		    System.out.println("A right arrow, which appears on the bottom-right, indicates that the map is in \"FLIP mode\".");
+		    System.out.println("The \"FLIP\" mode in this Map only lasts for 20 seconds.");
+		    System.out.println("-----------------");
+		}
+		System.out.println();
+		System.out.print("Are you ready to start the game (y)? ");
 		tmp = scan.nextLine();
 	    } while (!tmp.equals("y"));
 	    Thread.sleep(1000);
@@ -370,6 +386,7 @@ public class Map {
     public static void main(String [] args) throws InterruptedException{
 	try {
 	    Scanner scanRead = new Scanner(System.in);
+	    System.out.println(); 
 	    System.out.println("Please input the Map sequence...");
 	    int firstMap = -1;
 	    int secondMap = -1;
@@ -383,7 +400,7 @@ public class Map {
 		    Thread.sleep(1500);
 		} //(i == 2) 	    
 		else if (i == 1) {
-		    System.out.print("Second Map: ");
+		    System.out.print("Which Map do you wanna play in the 2nd round (1/2)? ");
 		    String tmp = scanRead.nextLine();
 		    if (tmp.equals("1") || tmp.equals("2")) {
 			secondMap = Integer.parseInt(tmp);
@@ -397,7 +414,7 @@ public class Map {
 		    System.out.println();
 		} // (i == 1)
 		else if (i == 0) {
-		    System.out.print("First Map: ");
+		    System.out.print("Which Map do you wanna play in the 1st round (1/2)? ");
 		    String tmp = scanRead.nextLine();
 		    if (tmp.equals("1") || tmp.equals("2")) {
 			firstMap = Integer.parseInt(tmp);
