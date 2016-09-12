@@ -1,11 +1,12 @@
 # Pacman-Harry
 
 ### This is just a summary of the Pacman-Harry game created in my leisure time. 
+-----------------------------------
 ##### *More details are explained in the pdf attached.*
-##### *Two demo videos (brief explanations on Map 1 and Map 2) are available in my Youtube Channel*:
+##### *Two demo videos (brief explanations on the characters as well as Map 1 and Map 2) are available in my Youtube Channel*:
 ###### Map 1 - https://www.youtube.com/watch?annotation_id=annotation_3083261565&feature=iv&src_vid=EgJB08PtlUM&v=u96zMdYGFpU
 ###### Map 2 - https://www.youtube.com/watch?v=EgJB08PtlUM
-
+-----------------------------------
 Pacman-Harry is a Unix console text-based game. It is slightly different from the original Pacman game in terms of the _maze display_ and _the algorithms on the Ghosts' behaviours_. Besides, I incorporated __Portal__, which was inspired by the "Portal" video game series - https://en.wikipedia.org/wiki/Portal_(video_game), in this game. The famous __A* algorithm__ for pathfinding is also added in all of the Ghosts in order to increase the difficulty of this game. Moreover, one of the Maps that I designed in this game has a "**FLIP mode**" (it is briefly explained below and in details in the pdf).
 
 Two Maps, **Map 1** and **Map 2**, are currently available in Pacman-Harry. <br />
