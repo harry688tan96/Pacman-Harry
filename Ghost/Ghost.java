@@ -8,6 +8,70 @@ import pathfinding.*;
 public class Ghost extends AllGhost {
     
     private boolean foundASpot;
+
+    public Ghost(Cell [][] board,Map amap, PacMan pMan) {
+	ghostType = '1';
+	a_Map = amap;
+	this.board = board;
+	this.aSTAR = new A_Star(board, a_Map.whichMap(), pMan);
+	this.pMan = pMan;
+	isInPosition = false;
+	bumpIntoPacman = false;
+	foundASpot = false;
+	if (a_Map.whichMap() == 1) {
+	    xPos = 22;
+	    yPos = 16;
+	    fixedPosX = 2;
+	    fixedPosY = 5;
+	    x_stepToMaze = 2;
+	    y_stepToMaze = 2;
+	    x_block_FROM = 2;
+	    x_block_TO = 22;
+	    y_block_FROM = 1;
+	    y_block_TO = 14;
+	}
+	else if (a_Map.whichMap() == 2) {
+            xPos = 30;
+            yPos = 3;
+            fixedPosX = 30;
+            fixedPosY = 12;
+            x_stepToMaze = 3;  //Ghost starts moving after pacman walked 3 steps
+            y_stepToMaze = 0;
+            x_block_FROM = 18;
+            x_block_TO = 42;
+            y_block_FROM = 5;
+            y_block_TO = 14;
+        }
+    
+    }
+    @Override
+    public void resetGhost() {
+	// Ghost is not eaten by pacman, so the cell that Ghost stood 
+	// has to reset to its previous state
+        if (board[yPos][xPos].getDisplay() != 'C') {
+            board[yPos][xPos].changeDisplay(board[yPos][xPos].getPrevState());
+        }
+	
+	isInPosition = false;
+	bumpIntoPacman = false;
+	foundASpot = false;
+        a_path.clearEverything();
+        chasingPacman.clearEverything();
+	
+	if (a_Map.whichMap() == 1) {
+	    xPos = 22;
+	    yPos = 16;
+	    x_stepToMaze = 2;
+	    y_stepToMaze = 2;
+	}
+	else if (a_Map.whichMap() == 2) {
+	    xPos = 30;
+	    yPos = 3;
+	    x_stepToMaze = 3;
+	}
+        
+	board[yPos][xPos].changeDisplay(ghostType);
+    }
     
     private void checkSpot(int x, int y) {
 	// if it is a wall / a gap / a portal gate / pacman who have eaten pill
@@ -82,71 +146,6 @@ public class Ghost extends AllGhost {
 	    }
 	}
     }
-
-    public Ghost(Cell [][] board,Map amap, PacMan pMan) {
-	ghostType = '1';
-	a_Map = amap;
-	this.board = board;
-	this.aSTAR = new A_Star(board, a_Map.whichMap(), pMan);
-	this.pMan = pMan;
-	isInPosition = false;
-	bumpIntoPacman = false;
-	foundASpot = false;
-	if (a_Map.whichMap() == 1) {
-	    xPos = 22;
-	    yPos = 16;
-	    fixedPosX = 2;
-	    fixedPosY = 5;
-	    x_stepToMaze = 2;
-	    y_stepToMaze = 2;
-	    x_block_FROM = 2;
-	    x_block_TO = 22;
-	    y_block_FROM = 1;
-	    y_block_TO = 14;
-	}
-	else if (a_Map.whichMap() == 2) {
-            xPos = 30;
-            yPos = 3;
-            fixedPosX = 30;
-            fixedPosY = 12;
-            x_stepToMaze = 3;  //Ghost starts moving after pacman walked 3 steps
-            y_stepToMaze = 0;
-            x_block_FROM = 18;
-            x_block_TO = 42;
-            y_block_FROM = 5;
-            y_block_TO = 14;
-        }
-    
-    }
-    @Override
-    public void resetGhost() {
-	// Ghost is not eaten by pacman, so the cell that Ghost stood 
-	// has to reset to its previous state
-        if (board[yPos][xPos].getDisplay() != 'C') {
-            board[yPos][xPos].changeDisplay(board[yPos][xPos].getPrevState());
-        }
-	
-	isInPosition = false;
-	bumpIntoPacman = false;
-	foundASpot = false;
-        a_path.clearEverything();
-        chasingPacman.clearEverything();
-	
-	if (a_Map.whichMap() == 1) {
-	    xPos = 22;
-	    yPos = 16;
-	    x_stepToMaze = 2;
-	    y_stepToMaze = 2;
-	}
-	else if (a_Map.whichMap() == 2) {
-	    xPos = 30;
-	    yPos = 3;
-	    x_stepToMaze = 3;
-	}
-        
-	board[yPos][xPos].changeDisplay(ghostType);
-    }
-
 
     public void move() throws InterruptedException {
 	// pacman bumps into Ghost

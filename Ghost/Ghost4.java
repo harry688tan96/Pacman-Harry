@@ -9,6 +9,77 @@ public class Ghost4 extends AllGhost{
     private Path findPathToPortal_1 = new Path();
     private Path findPathToPortal_2 = new Path();
     private int portal1_X, portal1_Y, portal2_X, portal2_Y;
+    
+    public Ghost4(Cell [][] board, Map amap, PacMan pMan) { 
+	ghostType = '4';
+	a_Map = amap;
+	this.board = board;
+       	this.aSTAR = new A_Star(board, a_Map.whichMap(), pMan);
+	this.pMan = pMan;
+	portal1_X = 0;
+	portal1_Y = 0;
+	portal2_X = 0;
+	portal2_Y = 0;
+	isInPosition = false;
+	bumpIntoPacman = false;
+	if (a_Map.whichMap() == 1) {
+	    xPos = 20;
+	    yPos = 16;
+	    fixedPosX = 46;
+	    fixedPosY = 27;
+	    x_stepToMaze = 4;
+	    y_stepToMaze = 2;
+	    x_block_FROM = 26;
+	    x_block_TO = 46;
+	    y_block_FROM = 18;
+	    y_block_TO = 31;
+	}
+	else if (a_Map.whichMap() == 2) {
+	    xPos = 30;
+	    yPos = 27;
+	    fixedPosX = 30;
+	    fixedPosY = 18;
+	    x_stepToMaze = 3; //Ghost4 starts moving after pacman has walked 3 steps
+	    y_stepToMaze = 0;
+	    x_block_FROM = 22;
+	    x_block_TO = 40;
+	    y_block_FROM = 18;
+	    y_block_TO = 25;
+	}
+    }
+    @Override
+    public void resetGhost() {
+	// Ghost4 is not eaten by pacman, so that cell that he stood 
+	// has to reset to its previous state
+        if (board[yPos][xPos].getDisplay() != 'C') {
+            board[yPos][xPos].changeDisplay(board[yPos][xPos].getPrevState());
+        }
+        
+	isInPosition = false;
+	bumpIntoPacman = false;
+        a_path.clearEverything();
+        chasingPacman.clearEverything();
+	findPathToPortal_1.clearEverything();
+	findPathToPortal_2.clearEverything();
+
+	if (a_Map.whichMap() == 1) {
+	    xPos = 20;
+	    yPos = 16;
+	    x_stepToMaze = 4;
+	    y_stepToMaze = 2;
+        }
+	else if (a_Map.whichMap() == 2) {
+	    xPos = 30;
+	    yPos = 27;
+	    x_stepToMaze = 3;
+	}
+	
+	board[yPos][xPos].changeDisplay(ghostType);
+	portal1_X = 0;
+	portal1_Y = 0;
+	portal2_X = 0;
+	portal2_Y = 0;
+    }
 
     private void portalLocation(int portalNo) {
 	if (portalNo == 1) {
@@ -42,6 +113,8 @@ public class Ghost4 extends AllGhost{
 
     private void ghostApproachPortal() throws InterruptedException {
 	if (pMan.usePortal1() && pMan.usePortal2()) {
+	    // finding the path to portal 1 and portal 2. Ghost 4 would firstly compare these two paths' distances, then
+	    // decide to destroy the closer portal to him.
 	    portalLocation(1);
 	    portalLocation(2);
 	    
@@ -150,78 +223,6 @@ public class Ghost4 extends AllGhost{
 	}
     }
 
-    public Ghost4(Cell [][] board, Map amap, PacMan pMan) { 
-	ghostType = '4';
-	a_Map = amap;
-	this.board = board;
-       	this.aSTAR = new A_Star(board, a_Map.whichMap(), pMan);
-	this.pMan = pMan;
-	portal1_X = 0;
-	portal1_Y = 0;
-	portal2_X = 0;
-	portal2_Y = 0;
-	isInPosition = false;
-	bumpIntoPacman = false;
-	if (a_Map.whichMap() == 1) {
-	    xPos = 20;
-	    yPos = 16;
-	    fixedPosX = 46;
-	    fixedPosY = 27;
-	    x_stepToMaze = 4;
-	    y_stepToMaze = 2;
-	    x_block_FROM = 26;
-	    x_block_TO = 46;
-	    y_block_FROM = 18;
-	    y_block_TO = 31;
-	}
-	else if (a_Map.whichMap() == 2) {
-	    xPos = 30;
-	    yPos = 27;
-	    fixedPosX = 30;
-	    fixedPosY = 18;
-	    x_stepToMaze = 3; //Ghost4 starts moving after pacman walked 3 steps
-	    y_stepToMaze = 0;
-	    x_block_FROM = 22;
-	    x_block_TO = 40;
-	    y_block_FROM = 18;
-	    y_block_TO = 25;
-	}
-    }
-    @Override
-    public void resetGhost() {
-	// Ghost4 is not eaten by pacman, so that cell that he stood 
-	// has to reset to its previous state
-        if (board[yPos][xPos].getDisplay() != 'C') {
-            board[yPos][xPos].changeDisplay(board[yPos][xPos].getPrevState());
-        }
-        
-	isInPosition = false;
-	bumpIntoPacman = false;
-        a_path.clearEverything();
-        chasingPacman.clearEverything();
-	findPathToPortal_1.clearEverything();
-	findPathToPortal_2.clearEverything();
-
-	if (a_Map.whichMap() == 1) {
-	    xPos = 20;
-	    yPos = 16;
-	    x_stepToMaze = 4;
-	    y_stepToMaze = 2;
-        }
-	else if (a_Map.whichMap() == 2) {
-	    xPos = 30;
-	    yPos = 27;
-	    x_stepToMaze = 3;
-	}
-	
-	board[yPos][xPos].changeDisplay(ghostType);
-	portal1_X = 0;
-	portal1_Y = 0;
-	portal2_X = 0;
-	portal2_Y = 0;
-    }
-
-
     public void move() throws InterruptedException{
 	
 	// pacman bumps into Ghost
@@ -287,4 +288,3 @@ public class Ghost4 extends AllGhost{
     } //move
     
 } //Ghost4
-

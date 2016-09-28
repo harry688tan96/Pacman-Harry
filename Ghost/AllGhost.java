@@ -59,8 +59,7 @@ public abstract class AllGhost {
     protected void chasePacman(int player_x, int player_y) {
 	if (checkPacman()) return;
 	
-	// Scenario: Pacman enters into the Portal and its current location
-	//           is inside the Portal
+	// Scenario: Pacman enters into the Portal and its current location is inside the Portal
 	// The Ghost will choose to randomly move around until 
 	// Pacman reappears on the Maze
 	if (pMan.isInPortal()) {
@@ -70,15 +69,13 @@ public abstract class AllGhost {
 
 	chasingPacman.clearEverything();
 	// it recalculates the path everytime because pacman might
-	// goes through portals
+	// moves to another spot on the Map
 	try {
 	    chasingPacman = aSTAR.findPath(xPos, yPos, player_x, player_y,false);
-	    
 	    int x = chasingPacman.getFirstX();
 	    int y = chasingPacman.getFirstY();
 	    char prevDisplay = checkForGhost();
-
-	    
+    
 	    if (board[y][x].isGhostHere()) {
 		if (!canGhostMove(x, y, board[y][x].getDisplay(), prevDisplay)) {
 		    return;
@@ -99,7 +96,6 @@ public abstract class AllGhost {
 	int y;
 	for (int i=0; i<15; i++) {
 	    if (i == 2 || i == 5 || i == 9 || i == 12) {
-	    
 		x = xPos + (i%5 - 2);
 		y = yPos + (i/5 - 1);
 		
@@ -124,9 +120,7 @@ public abstract class AllGhost {
       	int x;
 	int y;
 	char prevDisplay = checkForGhost();
-	
 	int randomInt = rand.nextInt(4);
-	
 	boolean left = false;
 	boolean right = false;
 	boolean top = false;
@@ -161,8 +155,7 @@ public abstract class AllGhost {
 		}
 	    }
 	    // it might be a big space or invalid movement
-	    if (board[y][x].getPrevState() == 0
-		|| !board[y][x].isValidMove()) {
+	    if (board[y][x].getPrevState() == 0 || !board[y][x].isValidMove()) {
 		randomInt = rand.nextInt(4);
 		continue;
 	    }
@@ -326,7 +319,7 @@ public abstract class AllGhost {
 	} 
     } //moveToLocation()
 
-    public void movingInBlock() {
+    protected void movingInBlock() {
 	try {
 	    // a path to the specified location has not been found yet
 	    if (a_path.isPathEmpty()) {
