@@ -82,7 +82,7 @@ public class Map {
 	
 	if (mapNo == 1) {
 	    	    
-	    // Array of Strings are used because it can be printed out smoothly
+	    // Array of Strings are used because it can be printed out smoothly and faster
 	    String [] ss = new String[33];
 	    
 	    for (int row=0; row<33; row++) {
@@ -90,15 +90,13 @@ public class Map {
 		for (int col=0; col<50;col++) {
 		    if (board[row][col].getDisplay() == '-') {
 			if (lazerColour == 37) lazerColour = 31; // back to RED
-			ss[row]+=addColour(board[row][col].getDisplay(),
-					   lazerColour);
+			ss[row]+=addColour(board[row][col].getDisplay(), lazerColour);
 			lazerColour++;
 		    }
 		    else ss[row]+=addColour(board[row][col].getDisplay());
 		}
 	    }
 	    
-	    //Thread.sleep(1000);
 	    System.out.println();
 	    for (int row=0; row<33; row++) {
 		System.out.print(ss[row]);
@@ -107,7 +105,7 @@ public class Map {
 	} // (mapNo == 1)
 	
 	else if (mapNo == 2) {
-	    // Array of Strings are used because it can be printed out smoothly
+	    // Array of Strings are used because it can be printed out smoothly and faster
 	    String [] ss = new String[31];
 	    
 	    if (!flipMode) {
@@ -116,8 +114,7 @@ public class Map {
 		    for (int col=0; col<62;col++) {
 			if (board[row][col].getDisplay() == '-') {
 			    if (lazerColour == 37) lazerColour = 31; //back to RED
-			    ss[row]+=addColour(board[row][col].getDisplay(),
-					       lazerColour);
+			    ss[row]+=addColour(board[row][col].getDisplay(), lazerColour);
 			    lazerColour++;
 			}
 			else ss[row]+=addColour(board[row][col].getDisplay());
@@ -153,19 +150,15 @@ public class Map {
 	String lives = "Lives: " + pMan.getLives();
 	String rounds = "Rounds: " + pMan.getRounds();
 	String _input_ = "Input: " + input;
-	String pPortal = "P1: " + pMan.getPortal1Num() + "  " 
-	    + "P2: " + pMan.getPortal2Num();
+	String pPortal = "P1: " + pMan.getPortal1Num() + "  " + "P2: " + pMan.getPortal2Num();
 	String ghostAttackMode;
 	if (ghost_4.getChaseMode()) {
 	    ghostAttackMode = "Ghost Chase Mode: ON!!!";
 	}
 	else ghostAttackMode = "";
-	String firstRow = String.format("%1$-5s %2$-20s %3$-45s",
-					"", scores, _input_);
-	String secondRow = String.format("%1$-5s %2$-20s %3$-45s",
-					 "", lives, pPortal);
-	String thirdRow = String.format("%1$-5s %2$-20s %3$-45s",
-					"", rounds, ghostAttackMode);
+	String firstRow = String.format("%1$-5s %2$-20s %3$-45s", "", scores, _input_);
+	String secondRow = String.format("%1$-5s %2$-20s %3$-45s", "", lives, pPortal);
+	String thirdRow = String.format("%1$-5s %2$-20s %3$-45s", "", rounds, ghostAttackMode);
 	
 	System.out.println();
 	System.out.println(firstRow);
@@ -206,8 +199,7 @@ public class Map {
 		System.out.println("Ooops!!! You are trapped in the Portal!");
 	    }
 	    else {
-		System.out.println("HAHAHA...You are eaten by Ghost "
-				   + pMan.eatenByGhost());
+		System.out.println("HAHAHA...You are eaten by Ghost " + pMan.eatenByGhost());
 	    }
 	    // if the Ghosts are in still in chase mode..RESET ghosts' attack
 	    if (ghost_4.getChaseMode()) {
@@ -223,7 +215,7 @@ public class Map {
 	    input = "";
 	    
 	    if (pMan.getLives() == -1) {
-		Thread.sleep(1500);
+		Thread.sleep(1000);
 		System.out.println("You Lost!!! Too bad...");
 		System.exit(0);
 	    }
@@ -248,20 +240,24 @@ public class Map {
 		    System.out.println("-----------------");
 		    System.out.println("There is a \"FLIP mode\" in Map 2.");
 		    System.out.println("Every 20 seconds, this Map will be flipped horizontally.");
-		    System.out.println("When the Map is flipped, the LEFT and RIGHT direction are reversed.");
-		    System.out.print("The \"a\" key (which is the LEFT key) will cause Pacman to move to the RIGHT instead. ");
-		    System.out.println("The \"d\" key (which is the RIGHT key) will cause Pacman to move to the LEFT instead.");
+		    System.out.println("When the Map is in \"FLIP mode\": ");
+		    System.out.println("   i.  The LEFT and RIGHT direction are both reversed.");
+		    System.out.println("  ii.  The \"a\" key (which is the LEFT key) will cause Pacman to move to the RIGHT instead.");
+		    System.out.println(" iii.  The \"d\" key (which is the RIGHT key) will cause Pacman to move to the LEFT instead.");
 		    System.out.println();
-		    System.out.println("NOTE: An arrow is drawn at the bottom of Map 2 in order to ease the player in knowing when the map has been flipped.");
-		    System.out.println("A left arrow, which appears on the bottom-left, indicates that the map is still in normal mode.");
-		    System.out.println("A right arrow, which appears on the bottom-right, indicates that the map is in \"FLIP mode\".");
-		    System.out.println("The \"FLIP\" mode in this Map only lasts for 20 seconds.");
+		    System.out.println("NOTE: An arrow is drawn at the bottom of Map 2 to ease the player in knowing when the map has been flipped.");
+		    System.out.println("A left arrow (appears on the bottom-left) indicates that the map is still in normal mode.");
+		    System.out.println("A right arrow (appears on the bottom-right) indicates that the map is in \"FLIP mode\".");
+		    System.out.println("Each \"FLIP\" mode only lasts for 20 seconds.");
 		    System.out.println("-----------------");
 		}
 		System.out.println();
 		System.out.print("Are you ready to start the game (y)? ");
 		tmp = scan.nextLine();
 	    } while (!tmp.equals("y"));
+	    System.out.println();
+	    Thread.sleep(1000);
+	    System.out.println("May the odds be ever in your favor!!!");
 	    Thread.sleep(1000);
 	    System.out.println();
 	    System.out.println("The game begins in ....");
@@ -388,14 +384,14 @@ public class Map {
 	    Scanner scanRead = new Scanner(System.in);
 	    System.out.println(); 
 	    System.out.println("Please input the Map sequence...");
+	    System.out.println();
 	    int firstMap = -1;
 	    int secondMap = -1;
 	    
 	    for (int i=0;i<3; ) {
 		if (i == 2) {
 		    Thread.sleep(750);
-		    System.out.println("The map sequence is: " + 
-				       firstMap + " --> " + secondMap);
+		    System.out.println("The map sequence is: " + firstMap + " --> " + secondMap);
 		    i++;
 		    Thread.sleep(1500);
 		} //(i == 2) 	    
@@ -462,7 +458,7 @@ public class Map {
 		    
 		    else {
 			amap.checkTime();
-			Thread.sleep(1000);
+			Thread.sleep(900);
 			if (!reader.ready()) {
 			    amap.pMan.action(amap.pMan.getDirection());
 			}
@@ -484,9 +480,8 @@ public class Map {
 			
 			amap.ghost_1.move();
 			amap.ghost_2.move();
-			amap.ghost_4.move();  // I set ghost_4 moves before
-			amap.ghost_3.move();  // ghost_3 because lazer is only shot
-			                      // after all ghosts have moved
+			amap.ghost_4.move();  // I set ghost_4 moves before ghost_3
+			amap.ghost_3.move();  // because ghost 3's lazer is only shot after all of the ghosts have moved
 			
 			// have to reset the cell display if Ghost4 eats 
 			// the pacman after the lazer has shot
