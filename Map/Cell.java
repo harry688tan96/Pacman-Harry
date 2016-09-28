@@ -2,16 +2,13 @@ package Map;
 
 public class Cell implements Comparable <Cell> {
     private int xPos, yPos;
-    private float cost;     //The path cost for this cell
+    private float cost;     //The path cost of this cell
     private float heuristic;    //The heuristic cost of this cell
     private Cell parent;   //The parent of this cell
     private char display;
     private char prevState;
     private boolean validMove;
-    //private boolean visit_or_not;
-
-    //    private GameObject contents;
-
+    
     public Cell() {
 	cost = 0;
 	heuristic = 0;
