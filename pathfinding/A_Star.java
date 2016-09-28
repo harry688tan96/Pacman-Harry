@@ -63,7 +63,7 @@ public class A_Star {
 	    int yPos;
 	    
 	    for (int i=0; i<15; i++) {
-		int x = (i%5)-2;  //explain it later, it is in page 4 in the book
+		int x = (i%5)-2;  // it is subtracted by 2 because there is a gap in between two pac-dots
 		int y = (i/5)-1;
 		
 		// it is the current tile
@@ -161,7 +161,7 @@ public class A_Star {
     //Heuristic Cost
     public float get_H_Cost(int xCurrent, int yCurrent, int xGoal, int yGoal){
 	// (xGoal - xCurrent) is divided by 2 becuz don't forget there is a 
-	// gap between every two points in x-axis
+	// gap between every two points (x-axis)
 	float dx = Math.abs((xGoal - xCurrent)/2);
 	float dy = Math.abs(yGoal - yCurrent);
 	
